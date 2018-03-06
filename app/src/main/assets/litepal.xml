@@ -4,6 +4,6 @@
     <list>
         <mapping class="com.star.coolweather.db.Province"/>
         <mapping class="com.star.coolweather.db.City"/>
-        <mapping class="com.star.coolweather.db.Country"/>
+        <mapping class="com.star.coolweather.db.County"/>
     </list>
 </litepal>
