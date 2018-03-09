@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 public class ChooseAreaFragment extends Fragment {
 
-
+    private static final int LEVEL_PROVINCE = 0;
+    private static final int LEVEL_CITY = 1;
+    private static final int LEVEL_COUNTY = 2;
 
     public ChooseAreaFragment() {
         // Required empty public constructor
