@@ -12,6 +12,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.star.coolweather.db.City;
+import com.star.coolweather.db.County;
+import com.star.coolweather.db.Province;
+
+import java.util.List;
+
 public class ChooseAreaFragment extends Fragment {
 
     private static final int LEVEL_PROVINCE = 0;
@@ -23,6 +29,16 @@ public class ChooseAreaFragment extends Fragment {
     private Button mBackButton;
     private ListView mListView;
     private ArrayAdapter<String> mAdapter;
+    private List<String> mDataList;
+
+    private List<Province> mProvinceList;
+    private List<City> mCityList;
+    private List<County> mCountyList;
+
+    private Province mSelectedProvince;
+    private City mSelectedCity;
+
+    private int mCurrentLevel;
 
     public ChooseAreaFragment() {
         // Required empty public constructor
