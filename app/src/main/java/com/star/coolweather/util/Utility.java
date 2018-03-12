@@ -14,6 +14,14 @@ import org.json.JSONObject;
 
 public class Utility {
 
+    private static final String COLUMN_NAME_PROVINCE_ID_IN_JSON = "id";
+    private static final String COLUMN_NAME_PROVINCE_NAME_IN_JSON = "name";
+    private static final String COLUMN_NAME_CITY_ID_IN_JSON = "id";
+    private static final String COLUMN_NAME_CITY_NAME_IN_JSON = "name";
+    private static final String COLUMN_NAME_COUNTY_ID_IN_JSON = "id";
+    private static final String COLUMN_NAME_COUNTY_NAME_IN_JSON = "name";
+    private static final String COLUMN_NAME_COUNTY_WEATHER_ID_IN_JSON = "weather_id";
+
     public static boolean handleProvincesResponse(String response) {
 
         if (!TextUtils.isEmpty(response)) {
@@ -27,8 +35,10 @@ public class Utility {
                     JSONObject provinceObject = allProvinces.getJSONObject(i);
 
                     Province province = new Province();
-                    province.setProvinceId(provinceObject.getInt("id"));
-                    province.setProvinceName(provinceObject.getString("name"));
+                    province.setProvinceId(provinceObject.getInt(
+                            COLUMN_NAME_PROVINCE_ID_IN_JSON));
+                    province.setProvinceName(provinceObject.getString(
+                            COLUMN_NAME_PROVINCE_NAME_IN_JSON));
                     province.save();
                 }
 
@@ -54,8 +64,10 @@ public class Utility {
                     JSONObject cityObject = allCities.getJSONObject(i);
 
                     City city = new City();
-                    city.setCityId(cityObject.getInt("id"));
-                    city.setCityName(cityObject.getString("name"));
+                    city.setCityId(cityObject.getInt(
+                            COLUMN_NAME_CITY_ID_IN_JSON ));
+                    city.setCityName(cityObject.getString(
+                            COLUMN_NAME_CITY_NAME_IN_JSON ));
                     city.setProvinceId(provinceId);
                     city.save();
                 }
@@ -82,9 +94,13 @@ public class Utility {
                     JSONObject countyObject = allCounties.getJSONObject(i);
 
                     County county = new County();
-                    county.setCountyName(countyObject.getString("name"));
+                    county.setCountyId(countyObject.getInt(
+                            COLUMN_NAME_COUNTY_ID_IN_JSON));
+                    county.setCountyName(countyObject.getString(
+                            COLUMN_NAME_COUNTY_NAME_IN_JSON));
                     county.setCityId(cityId);
-                    county.setWeatherId(countyObject.getString("weather_id"));
+                    county.setWeatherId(countyObject.getString(
+                            COLUMN_NAME_COUNTY_WEATHER_ID_IN_JSON));
                     county.save();
                 }
 

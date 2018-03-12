@@ -2,6 +2,8 @@
 <manifest package="com.star.coolweather"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
