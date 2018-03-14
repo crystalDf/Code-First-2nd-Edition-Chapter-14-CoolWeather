@@ -3,11 +3,11 @@ package com.star.coolweather.gson;
 
 public class AQI {
 
-    private AQICity city;
+    private AQICity mCity;
 
     private class AQICity {
 
-        private String aqi;
-        private String pm25;
+        private String mAqi;
+        private String mPm25;
     }
 }
