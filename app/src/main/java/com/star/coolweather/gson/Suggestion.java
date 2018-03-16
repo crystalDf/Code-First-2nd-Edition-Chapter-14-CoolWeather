@@ -11,6 +11,7 @@ public class Suggestion {
     @SerializedName("cw")
     private CarWash mCarWash;
 
+    @SerializedName("sport")
     private Sport mSport;
 
     private class Comfort {
