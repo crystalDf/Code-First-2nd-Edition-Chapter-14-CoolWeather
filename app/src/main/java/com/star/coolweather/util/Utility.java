@@ -3,9 +3,11 @@ package com.star.coolweather.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.star.coolweather.db.City;
 import com.star.coolweather.db.County;
 import com.star.coolweather.db.Province;
+import com.star.coolweather.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +23,8 @@ public class Utility {
     private static final String COLUMN_NAME_COUNTY_ID_IN_JSON = "id";
     private static final String COLUMN_NAME_COUNTY_NAME_IN_JSON = "name";
     private static final String COLUMN_NAME_COUNTY_WEATHER_ID_IN_JSON = "weather_id";
+
+    private static final String HE_WEATHER = "HeWeather";
 
     public static boolean handleProvincesResponse(String response) {
 
@@ -111,5 +115,26 @@ public class Utility {
         }
 
         return false;
+    }
+
+    public static Weather handleWeatherResponse(String response) {
+
+        if (!TextUtils.isEmpty(response)) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject(response);
+                JSONArray jsonArray = jsonObject.getJSONArray(HE_WEATHER);
+
+                String weatherContent = jsonArray.getJSONObject(0).toString();
+
+                return new Gson().fromJson(weatherContent, Weather.class);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 }
