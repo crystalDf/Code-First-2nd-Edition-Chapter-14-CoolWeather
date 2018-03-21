@@ -14,21 +14,69 @@ public class Suggestion {
     @SerializedName("sport")
     private Sport mSport;
 
-    private class Comfort {
-
-        @SerializedName("txt")
-        private String mInfo;
+    public Comfort getComfort() {
+        return mComfort;
     }
 
-    private class CarWash {
-
-        @SerializedName("txt")
-        private String mInfo;
+    public void setComfort(Comfort comfort) {
+        mComfort = comfort;
     }
 
-    private class Sport {
+    public CarWash getCarWash() {
+        return mCarWash;
+    }
+
+    public void setCarWash(CarWash carWash) {
+        mCarWash = carWash;
+    }
+
+    public Sport getSport() {
+        return mSport;
+    }
+
+    public void setSport(Sport sport) {
+        mSport = sport;
+    }
+
+    public class Comfort {
 
         @SerializedName("txt")
         private String mInfo;
+
+        public String getInfo() {
+            return mInfo;
+        }
+
+        public void setInfo(String info) {
+            mInfo = info;
+        }
+    }
+
+    public class CarWash {
+
+        @SerializedName("txt")
+        private String mInfo;
+
+        public String getInfo() {
+            return mInfo;
+        }
+
+        public void setInfo(String info) {
+            mInfo = info;
+        }
+    }
+
+    public class Sport {
+
+        @SerializedName("txt")
+        private String mInfo;
+
+        public String getInfo() {
+            return mInfo;
+        }
+
+        public void setInfo(String info) {
+            mInfo = info;
+        }
     }
 }

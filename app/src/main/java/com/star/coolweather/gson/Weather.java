@@ -24,4 +24,52 @@ public class Weather {
 
     @SerializedName("daily_forecast")
     private List<Forecast> mForecastList;
+
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String status) {
+        mStatus = status;
+    }
+
+    public Basic getBasic() {
+        return mBasic;
+    }
+
+    public void setBasic(Basic basic) {
+        mBasic = basic;
+    }
+
+    public AQI getAQI() {
+        return mAQI;
+    }
+
+    public void setAQI(AQI AQI) {
+        mAQI = AQI;
+    }
+
+    public Now getNow() {
+        return mNow;
+    }
+
+    public void setNow(Now now) {
+        mNow = now;
+    }
+
+    public Suggestion getSuggestion() {
+        return mSuggestion;
+    }
+
+    public void setSuggestion(Suggestion suggestion) {
+        mSuggestion = suggestion;
+    }
+
+    public List<Forecast> getForecastList() {
+        return mForecastList;
+    }
+
+    public void setForecastList(List<Forecast> forecastList) {
+        mForecastList = forecastList;
+    }
 }

@@ -1,6 +1,7 @@
 package com.star.coolweather;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -95,6 +96,13 @@ public class ChooseAreaFragment extends Fragment {
                 case LEVEL_CITY:
                     mSelectedCity = mCityList.get(position);
                     queryCounties();
+                    break;
+                case LEVEL_COUNTY:
+                    String weatherId = mCountyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra(WeatherActivity.WEATHER_ID, weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                     break;
                 default:
             }
