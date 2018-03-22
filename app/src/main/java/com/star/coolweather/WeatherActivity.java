@@ -1,17 +1,21 @@
 package com.star.coolweather;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.star.coolweather.gson.Forecast;
 import com.star.coolweather.gson.Weather;
 import com.star.coolweather.util.HttpUtil;
@@ -28,6 +32,9 @@ public class WeatherActivity extends AppCompatActivity {
     public static final String WEATHER_ID = "weather_id";
     public static final String WEATHER = "weather";
 
+    private static final String BING_PIC = "bing_pic";
+    private static final String BING_PIC_URL = "http://guolin.tech/api/bing_pic";
+
     private static final String WEATHER_URL = "http://guolin.tech/api/weather";
     private static final String QUERY_CITY_ID = "?cityid=";
     private static final String QUERY_KEY = "&key=";
@@ -38,6 +45,8 @@ public class WeatherActivity extends AppCompatActivity {
     private static final String COMFORT_LABEL = "舒适度：";
     private static final String CAR_WASH_LABEL = "洗车指数：";
     private static final String SPORT_LABEL = "运动建议：";
+
+    private ImageView mBingPicImg;
 
     private ScrollView mWeatherLayout;
     private TextView mTitleCity;
@@ -58,7 +67,19 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_weather);
+
+        mBingPicImg = findViewById(R.id.bing_pic_img);
 
         mWeatherLayout = findViewById(R.id.weather_layout);
         mTitleCity = findViewById(R.id.title_city);
@@ -89,6 +110,16 @@ public class WeatherActivity extends AppCompatActivity {
             mWeatherLayout.setVisibility(View.INVISIBLE);
 
             requestWeather(weatherId);
+        }
+
+        String bingPic = mSharedPreferences.getString(BING_PIC, null);
+
+        if (bingPic != null) {
+
+            Glide.with(this).load(bingPic).into(mBingPicImg);
+        } else {
+
+            loadBingPic();
         }
     }
 
@@ -134,6 +165,8 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
+
+        loadBingPic();
     }
 
     private void showWeatherInfo(Weather weather) {
@@ -186,5 +219,34 @@ public class WeatherActivity extends AppCompatActivity {
         mSport.setText(sport);
 
         mWeatherLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void loadBingPic() {
+
+        String requestBingPic = BING_PIC_URL;
+
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String bingPic = response.body().string();
+
+                runOnUiThread(() -> {
+
+                    SharedPreferences.Editor editor =
+                            PreferenceManager.getDefaultSharedPreferences(
+                                    WeatherActivity.this).edit();
+                    editor.putString(BING_PIC, bingPic);
+                    editor.apply();
+
+                    Glide.with(WeatherActivity.this).load(bingPic).into(mBingPicImg);
+                });
+            }
+        });
     }
 }
