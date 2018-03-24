@@ -5,10 +5,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -48,6 +52,11 @@ public class WeatherActivity extends AppCompatActivity {
 
     private ImageView mBingPicImg;
 
+    private DrawerLayout mDrawerLayout;
+    private Button mNavButton;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private ScrollView mWeatherLayout;
     private TextView mTitleCity;
     private TextView mTitleUpdateTime;
@@ -63,6 +72,8 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mSport;
 
     private SharedPreferences mSharedPreferences;
+
+    private String mWeatherId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +91,12 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
 
         mBingPicImg = findViewById(R.id.bing_pic_img);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavButton = findViewById(R.id.nav_button);
+
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         mWeatherLayout = findViewById(R.id.weather_layout);
         mTitleCity = findViewById(R.id.title_city);
@@ -101,15 +118,17 @@ public class WeatherActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(weatherString)) {
 
             Weather weather = Utility.handleWeatherResponse(weatherString);
+
+            mWeatherId = weather.getBasic().getWeatherId();
             
             showWeatherInfo(weather);
         } else {
 
-            String weatherId = getIntent().getStringExtra(WEATHER_ID);
+            mWeatherId = getIntent().getStringExtra(WEATHER_ID);
 
             mWeatherLayout.setVisibility(View.INVISIBLE);
 
-            requestWeather(weatherId);
+            requestWeather(mWeatherId);
         }
 
         String bingPic = mSharedPreferences.getString(BING_PIC, null);
@@ -121,9 +140,22 @@ public class WeatherActivity extends AppCompatActivity {
 
             loadBingPic();
         }
+
+        mNavButton.setOnClickListener(view ->
+                mDrawerLayout.openDrawer(GravityCompat.START));
+
+        mSwipeRefreshLayout.setOnRefreshListener(() -> requestWeather(mWeatherId));
     }
 
-    private void requestWeather(final String weatherId) {
+    public DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
+
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
+    }
+
+    public void requestWeather(final String weatherId) {
 
         String weatherUrl = WEATHER_URL + QUERY_CITY_ID + weatherId +
                 QUERY_KEY + KEY;
@@ -138,6 +170,8 @@ public class WeatherActivity extends AppCompatActivity {
 
                     Toast.makeText(WeatherActivity.this,
                             "获取天气信息失败", Toast.LENGTH_LONG).show();
+
+                    mSwipeRefreshLayout.setRefreshing(false);
                 });
             }
 
@@ -156,12 +190,17 @@ public class WeatherActivity extends AppCompatActivity {
                                         WeatherActivity.this).edit();
                         editor.putString(WEATHER, responseText);
                         editor.apply();
+
+                        mWeatherId = weather.getBasic().getWeatherId();
+
                         showWeatherInfo(weather);
                     } else {
 
                         Toast.makeText(WeatherActivity.this,
                                 "获取天气信息失败", Toast.LENGTH_LONG).show();
                     }
+
+                    mSwipeRefreshLayout.setRefreshing(false);
                 });
             }
         });

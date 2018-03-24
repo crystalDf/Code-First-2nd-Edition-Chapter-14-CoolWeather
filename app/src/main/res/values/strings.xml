@@ -9,4 +9,5 @@
     <string name="aqi_label">AQI 指数</string>
     <string name="pm2_5_label">PM2.5 指数</string>
     <string name="suggestion_label">生活建议</string>
+    <string name="bing_pic">Bing Pic</string>
 </resources>
