@@ -1,5 +1,6 @@
 package com.star.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.star.coolweather.gson.Forecast;
 import com.star.coolweather.gson.Weather;
+import com.star.coolweather.service.AutoUpdateService;
 import com.star.coolweather.util.HttpUtil;
 import com.star.coolweather.util.Utility;
 
@@ -36,14 +38,14 @@ public class WeatherActivity extends AppCompatActivity {
     public static final String WEATHER_ID = "weather_id";
     public static final String WEATHER = "weather";
 
-    private static final String BING_PIC = "bing_pic";
-    private static final String BING_PIC_URL = "http://guolin.tech/api/bing_pic";
+    public static final String BING_PIC = "bing_pic";
+    public static final String BING_PIC_URL = "http://guolin.tech/api/bing_pic";
 
-    private static final String WEATHER_URL = "http://guolin.tech/api/weather";
-    private static final String QUERY_CITY_ID = "?cityid=";
-    private static final String QUERY_KEY = "&key=";
-    private static final String KEY = "d2a8fc30ff4a437b9b8df86c69747f88";
-    private static final String OK = "ok";
+    public static final String WEATHER_URL = "http://guolin.tech/api/weather";
+    public static final String QUERY_CITY_ID = "?cityid=";
+    public static final String QUERY_KEY = "&key=";
+    public static final String KEY = "d2a8fc30ff4a437b9b8df86c69747f88";
+    public static final String OK = "ok";
 
     private static final String TEMPERATURE_UNIT = "°C";
     private static final String COMFORT_LABEL = "舒适度：";
@@ -258,6 +260,9 @@ public class WeatherActivity extends AppCompatActivity {
         mSport.setText(sport);
 
         mWeatherLayout.setVisibility(View.VISIBLE);
+
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     private void loadBingPic() {
