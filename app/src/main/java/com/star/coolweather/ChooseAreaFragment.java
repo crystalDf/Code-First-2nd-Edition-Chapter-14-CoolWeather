@@ -230,14 +230,14 @@ public class ChooseAreaFragment extends Fragment {
 
                 switch (queryParam) {
                     case QUERY_PROVINCE:
-                        result = Utility.handleProvincesResponse(responseText);
+                        result = Utility.handleProvinceResponse(responseText);
                         break;
                     case QUERY_CITY:
-                        result = Utility.handleCitiesResponse(responseText,
+                        result = Utility.handleCityResponse(responseText,
                                 mSelectedProvince.getProvinceId());
                         break;
                     case QUERY_COUNTY:
-                        result = Utility.handleCountiesResponse(responseText,
+                        result = Utility.handleCountyResponse(responseText,
                                 mSelectedCity.getCityId());
                         break;
                     default:

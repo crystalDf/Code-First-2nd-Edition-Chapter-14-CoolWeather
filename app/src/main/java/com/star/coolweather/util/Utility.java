@@ -26,7 +26,7 @@ public class Utility {
 
     private static final String HE_WEATHER = "HeWeather";
 
-    public static boolean handleProvincesResponse(String response) {
+    public static boolean handleProvinceResponse(String response) {
 
         if (!TextUtils.isEmpty(response)) {
 
@@ -55,7 +55,7 @@ public class Utility {
         return false;
     }
 
-    public static boolean handleCitiesResponse(String response, int provinceId) {
+    public static boolean handleCityResponse(String response, int provinceId) {
 
         if (!TextUtils.isEmpty(response)) {
 
@@ -85,7 +85,7 @@ public class Utility {
         return false;
     }
 
-    public static boolean handleCountiesResponse(String response, int cityId) {
+    public static boolean handleCountyResponse(String response, int cityId) {
 
         if (!TextUtils.isEmpty(response)) {
 
